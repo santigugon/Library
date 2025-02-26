@@ -1,9 +1,9 @@
-package Library;
-
 import java.util.Scanner;
+import Model.Library;
 
 public class LibraryManagementSystem {
     public static void main (String[] args) {
+        Library library = new Library();
         Scanner scanner = new Scanner(System.in);
         boolean isRunning = true;
         boolean isUserType = false;
@@ -34,18 +34,41 @@ public class LibraryManagementSystem {
 
                         switch (librarianChoice) {
                             case 1: // addbook function
+                                System.out.print("Enter the title of the book: ");
+                                String title = scanner.nextLine();
+                                System.out.print("Enter the author of the book: ");
+                                String author = scanner.nextLine();
+                                System.out.print("Enter the number of copies: ");
+                                int numberOfCopies = scanner.nextInt();
+                                scanner.nextLine();
+                                System.out.print("Enter the ISBN of the book: ");
+                                String isbn = scanner.nextLine();
+                                library.addBook(title, author, numberOfCopies, isbn);
                                 break;
                             
                             case 2: // display all books function
+                                library.displayAllBooks();
                                 break;
 
                             case 3: // remove book function
+                                System.out.print("Enter the ISBN of the book you want to remove: ");
+                                String isbnToRemove = scanner.nextLine();
+                                library.removeBook(isbnToRemove);
                                 break;
 
                             case 4: // register patrons function
+                                System.out.print("Enter the name of the patron: ");
+                                String name = scanner.nextLine();
+                                System.out.print("Enter the ID of the patron: ");
+                                int id = scanner.nextInt();
+                                scanner.nextLine();
+                                System.out.print("Enter the details of the patron: ");
+                                String details = scanner.nextLine();
+                                library.addPatron(name, id, details);
                                 break;
 
                             case 5: // view patrons function
+                                library.displayPatron();
                                 break;
 
                             case 6:

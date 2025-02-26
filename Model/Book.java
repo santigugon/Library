@@ -17,6 +17,7 @@ public class Book {
         System.out.println("Author: " + author);
         System.out.println("Number of copies: " + numberOfCopies);
         System.out.println("ISBN: " + isbn);
+        System.out.println("----------------------------");
     }
 
 

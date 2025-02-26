@@ -12,38 +12,49 @@ public class Library {
         this.patrons = new ArrayList<>();
     }
 
-    public void displayBook(){
+    public void displayAllBooks(){
         if (books.isEmpty()) {
-            System.out.println("No hay libros en la biblioteca.");
+            System.out.println("There are no books in the library.");
             return;
         }
-        System.out.println("Lista de libros:");
-        for (Book book : books) {
-            book.display();
+        System.out.println("List of books:");
+        for (int i = 0; i < books.size(); i++){
+            System.out.println("----------------------------");
+            System.out.println(i + 1 + ".");
+            books.get(i).display();
         }
     }
 
     public void displayPatron(){
         if (patrons.isEmpty()) {
-            System.out.println("No hay libros en la biblioteca.");
+            System.out.println("There are no patrons in the library.");
             return;
         }
-        System.out.println("Lista de libros:");
-        for (Patron patron : patrons) {
-            patron.displayPatron();
+        System.out.println("List of patrons:");
+        for (int i = 0; i < patrons.size(); i++){
+            System.out.println("----------------------------");
+            System.out.println(i + 1 + ".");
+            patrons.get(i).displayPatron();
         }
     }
 
     public void addBook(String title, String author, int numberOfCopies, String isbn) {
         books.add(new Book(title, author, numberOfCopies, isbn));
+        System.out.println("Book added successfully.");
     }
 
     public void removeBook(String ISBN) {
-        books.removeIf(book -> book.isbn.equals(ISBN));
+        boolean wasDeleted = books.removeIf(book -> book.isbn.equals(ISBN));
+        if (wasDeleted) {
+            System.out.println("Book removed successfully.");
+        } else {
+            System.out.println("Book not found.");
+        }
     }
 
     public void addPatron(String name, int id, String details) {
         patrons.add(new Patron(name, id, details ));
+        System.out.println("Patron added successfully.");
     }
 
     public void searchBook(String query){

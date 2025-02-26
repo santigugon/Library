@@ -15,6 +15,7 @@ public class Patron {
         System.out.println("Name: " + name);
         System.out.println("ID: " + id);
         System.out.println("Contact details: " + details);
+        System.out.println("----------------------------");
     }
 
 }
