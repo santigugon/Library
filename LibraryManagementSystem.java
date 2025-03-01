@@ -94,9 +94,23 @@ public class LibraryManagementSystem {
 
                         switch (userChoice) {
                             case 1: // display all books function
+                                library.displayAllBooks();
                                 break;
 
                             case 2: // search book function
+                                System.out.println("Type the number of the search type:");
+                                System.out.println("1. Title");
+                                System.out.println("2. Author");
+                                System.out.println("3. ISBN");
+                                int userChoiceSearch = scanner.nextInt();
+                                scanner.nextLine();
+                                System.out.print("Enter the query of the book you want to search: ");
+                                String query = scanner.nextLine();
+                                if(userChoiceSearch>0 && userChoiceSearch<4)
+                                    System.out.println(library.searchBook(userChoiceSearch, query));
+                                else{
+                                    System.out.println("Invalid option. Please try again.");
+                                }
                                 break;
 
                             case 3:
