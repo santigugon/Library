@@ -58,37 +58,74 @@ public class Library {
     }
 
     // 1 for title, 2 for author, 3 for isbn
-    public String searchBook(int type, String query){
+    public Book searchBook(int type, String query){
+        Book emptyBook = new Book("No books found","No books found",4,"No books found");
         for (Book book : books){
-            System.out.println("Book title: "+book.title);
             if(type == 1){
-                System.out.println(book.title + "== " + query);
-                System.out.println(book.title==query);
                 if(book.title.isEmpty()){
-                    return "No books found 1";
+                    return emptyBook;
                 }
                 else if(book.title.equals(query)){
-                    return "Book found "+book.title;
+                    return book;
                 }
             }
             else if(type == 2){
 
                 if(book.author.isEmpty()){
-                    return "No books found 2";
+                    return emptyBook;
                 }
                 else if(book.author.equals(query)){
-                    return "Book found "+book.title;
+                    return book;
                 }
             }
             else if(type == 3){
                 if(book.isbn.isEmpty()){
-                    return "No books found 3";
+                    return emptyBook;
                 }
                 else if(book.isbn.equals(query)){
-                    return "Book found "+book.title;
+                    return book;
                 }
             }
         }
-        return "No books found 4";
+        return emptyBook;
+    }
+
+    public Patron searchPatron(int id){
+        Patron emptyPatron = new Patron("No patrons found",0,"No patrons found");
+        for (Patron patron : patrons){
+            if(patron.id == id){
+                return patron;
+            }
+        }
+        return emptyPatron;
+    }
+
+    public void borrowBook(int patronId, String isbn) {
+        Patron patron = searchPatron(patronId);
+        Book book = searchBook(3, isbn);
+        if (patron.name.equals("No patrons found")) {
+            System.out.println("Patron not found.");
+        } else if (book.title.equals("No books found")) {
+            System.out.println("Book not found.");
+        } else {
+            if (book.borrowBook()) {
+                patron.borrowBook(book);
+            } else {
+                System.out.println("Book not available. No more copies left");
+            }
+        }
+    }
+
+    public void returnBook(int patronId, String isbn) {
+        Patron patron = searchPatron(patronId);
+        Book book = searchBook(3, isbn);
+        if (patron.name.equals("No patrons found")) {
+            System.out.println("Patron not found.");
+        } else if (book.title.equals("No books found")) {
+            System.out.println("Book not found.");
+        } else {
+            patron.returnBook(book);
+            book.returnBook();
+        }
     }
 }

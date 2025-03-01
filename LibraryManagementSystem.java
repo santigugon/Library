@@ -1,5 +1,6 @@
 import java.util.Scanner;
 import Model.Library;
+import Model.Patron;
 
 public class LibraryManagementSystem {
     public static void main (String[] args) {
@@ -107,7 +108,7 @@ public class LibraryManagementSystem {
                                 System.out.print("Enter the query of the book you want to search: ");
                                 String query = scanner.nextLine();
                                 if(userChoiceSearch>0 && userChoiceSearch<4)
-                                    System.out.println(library.searchBook(userChoiceSearch, query));
+                                    library.searchBook(userChoiceSearch, query).display();
                                 else{
                                     System.out.println("Invalid option. Please try again.");
                                 }
@@ -124,9 +125,41 @@ public class LibraryManagementSystem {
                     break;
                 
                 case 3:
+                    isUserType = true;
+                    while (isUserType) {
+                        boolean isUserLogged = false;
+                        System.out.println("Patron System");
+                        System.out.println("Enter your patron id: ");
+                        int patronId = scanner.nextInt();
+                        scanner.nextLine();
+                        Patron currPatron = library.searchPatron(patronId);
+                        if(currPatron.name.equals("No patrons found")){
+                            System.out.println("Patron not found.");
+                            break;
+                        }else{
+                            isUserLogged = true;
+                        }
+                        while (isUserLogged) {
+                            
+                            System.out.println("1. Display All Books");
+                            System.out.println("2. Borrow Books");
+                            System.out.println("3. Return Books");
+                            System.out.println("4. Go back");
+                            System.out.print("Choose an option: ");
+                            int patronChoice = scanner.nextInt();
+                            scanner.nextLine();
+                            switch(patronChoice){
+                                case 1: // display all books function
+                                library.displayAllBooks();
+                                break;
+                                
+                            }
+                        }
+
+                    }
+                case 4:
                     isRunning = false;
                     break;
-                
                 default:
                     System.out.println("Invalid option. Please try again.");
             }

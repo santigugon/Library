@@ -20,6 +20,17 @@ public class Book {
         System.out.println("----------------------------");
     }
 
+    public boolean borrowBook() {
+        if (numberOfCopies > 0) {
+            numberOfCopies--;
+            return true;
+        } else {
+            return false;
+        }
+    }
 
+    public void returnBook() {
+        numberOfCopies++;
+    }
 
 }
