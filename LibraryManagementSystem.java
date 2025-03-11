@@ -17,7 +17,8 @@ public class LibraryManagementSystem {
             System.out.println("2. User");
             System.out.println("3. Patron");  
             System.out.println("4. Exit");
-            System.out.print("Choose an option: ");  
+            System.out.print("Choose an option: "); 
+            try{ 
             int choiceUserType = scanner.nextInt();
             scanner.nextLine();
 
@@ -125,7 +126,8 @@ public class LibraryManagementSystem {
                         System.out.println("1. Display All Books");
                         System.out.println("2. Search Book");
                         System.out.println("3. Go back");
-                        System.out.print("Choose an option: ");  
+                        System.out.print("Choose an option: "); 
+                        try { 
                         int userChoice = scanner.nextInt();
                         scanner.nextLine();
 
@@ -157,7 +159,17 @@ public class LibraryManagementSystem {
                         
                             default:
                                 System.out.println("Invalid option. Please try again.");
-                        }
+                        } 
+                    } catch (IllegalArgumentException e) {
+                        System.out.println("Error: " + e.getMessage());
+                    } catch(InputMismatchException e){
+                        System.out.println("Invalid input. Please try again.");
+                        scanner.nextLine(); // Clear the scanner buffer to prevent input mismatch issues
+                    } 
+                    catch (Exception e) {
+                        System.out.println("An unexpected error occurred: " + e.getMessage());
+                        scanner.nextLine(); // Clear the scanner buffer to prevent input mismatch issues
+                    }
                     }
                     break;
                 
@@ -167,6 +179,7 @@ public class LibraryManagementSystem {
                         boolean isUserLogged = false;
                         System.out.println("Patron System");
                         System.out.println("Enter your patron id: ");
+                        try {
                         int patronId = scanner.nextInt();
                         scanner.nextLine();
                         Patron currPatron = library.searchPatron(patronId);
@@ -181,7 +194,8 @@ public class LibraryManagementSystem {
                             System.out.println("1. Display All Books");
                             System.out.println("2. Borrow Books");
                             System.out.println("3. Return Books");
-                            System.out.println("4. Go back");
+                            System.out.println("4. Display Borrowed Books");
+                            System.out.println("5. Go back");
                             System.out.print("Choose an option: ");
                             int patronChoice = scanner.nextInt();
                             scanner.nextLine();
@@ -205,12 +219,27 @@ public class LibraryManagementSystem {
                                 library.returnBook(patronId, isbnToReturn);
                                 break;
 
-                                case 4:
+                                case 4: // display all borrowed books function
+                                currPatron.displayBorrowedBooks();
+                                break;
+
+
+                                case 5:
                                 isUserLogged = false;
                                 isUserType = false;
                                 break;
                             }
                         }
+                    } catch (IllegalArgumentException e) {
+                        System.out.println("Error: " + e.getMessage());
+                    } catch(InputMismatchException e){
+                        System.out.println("Invalid input. Please try again.");
+                        scanner.nextLine(); // Clear the scanner buffer to prevent input mismatch issues
+                    } 
+                    catch (Exception e) {
+                        System.out.println("An unexpected error occurred: " + e.getMessage());
+                        scanner.nextLine(); // Clear the scanner buffer to prevent input mismatch issues
+                    }
 
                     }
                     break;
@@ -220,6 +249,16 @@ public class LibraryManagementSystem {
                 default:
                     System.out.println("Invalid option. Please try again.");
             }
+        } catch (IllegalArgumentException e) {
+            System.out.println("Error: " + e.getMessage());
+        } catch(InputMismatchException e){
+            System.out.println("Invalid input. Please try again.");
+            scanner.nextLine(); // Clear the scanner buffer to prevent input mismatch issues
+        } 
+        catch (Exception e) {
+            System.out.println("An unexpected error occurred: " + e.getMessage());
+            scanner.nextLine(); // Clear the scanner buffer to prevent input mismatch issues
+        }
         }
 
         scanner.close();

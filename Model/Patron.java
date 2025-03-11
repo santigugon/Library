@@ -24,6 +24,7 @@ public class Patron {
     public void borrowBook(Book book) {
         if (borrowedBooks.contains(book)) {
             System.out.println("Book already borrowed.");
+            book.returnBook();
             return;
         }
         borrowedBooks.add(book);
@@ -33,9 +34,23 @@ public class Patron {
     public void returnBook(Book book) {
         if (!borrowedBooks.contains(book)) {
             System.out.println("Book not borrowed.");
+            book.borrowBook();
             return;
         }
         borrowedBooks.remove(book);
         System.out.println("Book returned successfully.");
+    }
+
+    public void displayBorrowedBooks() {
+        if (borrowedBooks.isEmpty()) {
+            System.out.println("No books borrowed.");
+            return;
+        }
+        System.out.println("Borrowed books:");
+        for (int i = 0; i < borrowedBooks.size(); i++) {
+            System.out.println("----------------------------");
+            System.out.println(i + 1 + ".");
+            borrowedBooks.get(i).display();
+        }
     }
 }
