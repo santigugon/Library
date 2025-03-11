@@ -44,7 +44,7 @@ public class Library {
     }
 
     public void removeBook(String ISBN) {
-        boolean wasDeleted = books.removeIf(book -> book.isbn.equals(ISBN));
+        boolean wasDeleted = books.removeIf(book -> book.getIsbn().equals(ISBN));
         if (wasDeleted) {
             System.out.println("Book removed successfully.");
         } else {
@@ -53,6 +53,15 @@ public class Library {
     }
 
     public void addPatron(String name, int id, String details) {
+        if(id < 0 ){
+            System.out.println("ID cannot be negative.");
+            return;
+        }
+        for(Patron patron : patrons){
+            if(patron.id == id){
+                throw new IllegalArgumentException("Patron with this ID already exists.");
+            }
+        }
         patrons.add(new Patron(name, id, details ));
         System.out.println("Patron added successfully.");
     }
@@ -62,27 +71,27 @@ public class Library {
         Book emptyBook = new Book("No books found","No books found",4,"No books found");
         for (Book book : books){
             if(type == 1){
-                if(book.title.isEmpty()){
+                if(book.getTitle().isEmpty()){
                     return emptyBook;
                 }
-                else if(book.title.equals(query)){
+                else if(book.getTitle().equals(query)){
                     return book;
                 }
             }
             else if(type == 2){
 
-                if(book.author.isEmpty()){
+                if(book.getAuthor().isEmpty()){
                     return emptyBook;
                 }
-                else if(book.author.equals(query)){
+                else if(book.getAuthor().equals(query)){
                     return book;
                 }
             }
             else if(type == 3){
-                if(book.isbn.isEmpty()){
+                if(book.getIsbn().isEmpty()){
                     return emptyBook;
                 }
-                else if(book.isbn.equals(query)){
+                else if(book.getIsbn().equals(query)){
                     return book;
                 }
             }
@@ -105,7 +114,7 @@ public class Library {
         Book book = searchBook(3, isbn);
         if (patron.name.equals("No patrons found")) {
             System.out.println("Patron not found.");
-        } else if (book.title.equals("No books found")) {
+        } else if (book.getTitle().equals("No books found")) {
             System.out.println("Book not found.");
         } else {
             if (book.borrowBook()) {
@@ -121,11 +130,33 @@ public class Library {
         Book book = searchBook(3, isbn);
         if (patron.name.equals("No patrons found")) {
             System.out.println("Patron not found.");
-        } else if (book.title.equals("No books found")) {
+        } else if (book.getTitle().equals("No books found")) {
             System.out.println("Book not found.");
         } else {
             patron.returnBook(book);
             book.returnBook();
         }
+    }
+
+    public boolean isbnAlreadyExists(String isbn){
+        for(Book book : books){
+            if(book.getIsbn().equals(isbn)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void editBook(String isbn, String title, String author, int numberOfCopies){
+        for(Book book : books){
+            if(book.getIsbn().equals(isbn)){
+                book.setTitle(title) ;
+                book.setAuthor(author);
+                book.setNumberOfCopies(numberOfCopies);;
+                System.out.println("Book edited successfully.");
+                return;
+            }
+        }
+        System.out.println("Book not found.");
     }
 }
