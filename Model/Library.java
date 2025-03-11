@@ -68,11 +68,10 @@ public class Library {
 
     // 1 for title, 2 for author, 3 for isbn
     public Book searchBook(int type, String query){
-        Book emptyBook = new Book("No books found","No books found",4,"No books found");
         for (Book book : books){
             if(type == 1){
                 if(book.getTitle().isEmpty()){
-                    return emptyBook;
+                    throw new IllegalArgumentException("Not book found.");
                 }
                 else if(book.getTitle().equals(query)){
                     return book;
@@ -81,7 +80,7 @@ public class Library {
             else if(type == 2){
 
                 if(book.getAuthor().isEmpty()){
-                    return emptyBook;
+                    throw new IllegalArgumentException("Not book found.");
                 }
                 else if(book.getAuthor().equals(query)){
                     return book;
@@ -89,24 +88,23 @@ public class Library {
             }
             else if(type == 3){
                 if(book.getIsbn().isEmpty()){
-                    return emptyBook;
+                    throw new IllegalArgumentException("Not book found.");
                 }
                 else if(book.getIsbn().equals(query)){
                     return book;
                 }
             }
         }
-        return emptyBook;
+        throw new IllegalArgumentException("Not book found.");
     }
 
     public Patron searchPatron(int id){
-        Patron emptyPatron = new Patron("No patrons found",0,"No patrons found");
         for (Patron patron : patrons){
             if(patron.id == id){
                 return patron;
             }
         }
-        return emptyPatron;
+        throw new IllegalArgumentException("No patrons found");
     }
 
     public void borrowBook(int patronId, String isbn) {
@@ -158,5 +156,12 @@ public class Library {
             }
         }
         System.out.println("Book not found.");
+    }
+
+    public void editPatron(int id, String name, String details){
+        Patron patronToEdit =searchPatron(id);
+        patronToEdit.setName(name);
+        patronToEdit.setDetails(details);
+        System.out.println("Patron edited successfully.");
     }
 }

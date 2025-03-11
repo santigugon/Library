@@ -34,7 +34,9 @@ public class LibraryManagementSystem {
                         System.out.println("4. Register Patron");
                         System.out.println("5. View Patrons");
                         System.out.println("6. Edit book");
-                        System.out.println("7. Go back");
+                        System.out.println("7. See number of borrowed books by patron id");
+                        System.out.println("8. Edit patron");
+                        System.out.println("9. Exit");
                         System.out.print("Choose an option: ");  
                         try {
                         int librarianChoice = scanner.nextInt();
@@ -88,6 +90,7 @@ public class LibraryManagementSystem {
                                 case 6: // edit book function
                                     System.out.println("Enter the ISBN of the book you want to edit: ");
                                     String isbnToEdit = scanner.nextLine();
+                                    library.searchBook(3, isbnToEdit).display();
                                     System.out.println("Enter the new title of the book: ");
                                     String newTitle = scanner.nextLine();
                                     System.out.println("Enter the new author of the book: ");
@@ -97,8 +100,33 @@ public class LibraryManagementSystem {
                                     scanner.nextLine();
                                     library.editBook(isbnToEdit, newTitle, newAuthor, newNumberOfCopies);
                                     break;
-                        
-                                case 7: // exit
+
+                                case 7: // number of borrowed books by patron id
+                                    System.out.println("Enter the patron ID: ");
+                                    int patronId = scanner.nextInt();
+                                    scanner.nextLine();
+                                    Patron patron = library.searchPatron(patronId);
+                                    if(patron.name.equals("No patrons found")){
+                                        System.out.println("Patron not found.");
+                                    }else{
+                                        System.out.println("Number of borrowed books: " + patron.numberOfBorrowedBooks());
+                                    }
+                                    break;
+                                    
+                                case 8: // edit patron function
+                                    System.out.println("Enter the ID of the patron you want to edit: ");
+                                    int patronIdToEdit = scanner.nextInt();
+                                    scanner.nextLine();
+                                    Patron patronToEdit = library.searchPatron(patronIdToEdit);
+                                    patronToEdit.displayPatron();
+                                    System.out.println("Enter the new name of the patron: ");
+                                    String newName = scanner.nextLine();
+                                    System.out.println("Enter the new details of the patron: ");
+                                    String newDetails = scanner.nextLine();
+                                    library.editPatron(patronIdToEdit, newName, newDetails);
+                                    break;
+
+                                case 9: // exit
                                     isUserType = false;
                                     break;
                         

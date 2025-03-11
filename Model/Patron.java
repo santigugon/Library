@@ -46,11 +46,32 @@ public class Patron {
             System.out.println("No books borrowed.");
             return;
         }
-        System.out.println("Borrowed books:");
+        System.out.println("Borrowed books "+ numberOfBorrowedBooks()+ " books:");
         for (int i = 0; i < borrowedBooks.size(); i++) {
             System.out.println("----------------------------");
             System.out.println(i + 1 + ".");
             borrowedBooks.get(i).displayNoCopies();
         }
+    }
+
+    public int numberOfBorrowedBooks() {
+        return borrowedBooks.size();
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setDetails(String details) {
+        this.details = details;
+    }
+
+
+    public String getName() {
+        return name;
     }
 }
