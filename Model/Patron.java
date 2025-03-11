@@ -50,7 +50,7 @@ public class Patron {
         for (int i = 0; i < borrowedBooks.size(); i++) {
             System.out.println("----------------------------");
             System.out.println(i + 1 + ".");
-            borrowedBooks.get(i).display();
+            borrowedBooks.get(i).displayNoCopies();
         }
     }
 }

@@ -20,6 +20,13 @@ public class Book {
         System.out.println("----------------------------");
     }
 
+    public void displayNoCopies() {
+        System.out.println("Title: " + title);
+        System.out.println("Author: " + author);
+        System.out.println("ISBN: " + isbn);
+        System.out.println("----------------------------");
+    }
+
     public boolean borrowBook() {
         if (numberOfCopies > 0) {
             numberOfCopies--;
