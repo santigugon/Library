@@ -107,9 +107,19 @@ public class Library {
         throw new IllegalArgumentException("No patrons found");
     }
 
-    public void borrowBook(int patronId, String isbn) {
+    public synchronized void borrowBook(int patronId, String isbn) {
         Patron patron = searchPatron(patronId);
         Book book = searchBook(3, isbn);
+
+        try {
+            const int randomDelay = (int) (Math.random() * 2000) + 1;
+            Thread.sleep(randomDelay); 
+            System.out.println(this.name + " has read for " + randomDelay + " milliseconds.");
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            System.out.println(name + " was interrupted.");
+        }
+
         if (patron.name.equals("No patrons found")) {
             System.out.println("Patron not found.");
         } else if (book.getTitle().equals("No books found")) {
@@ -123,7 +133,16 @@ public class Library {
         }
     }
 
-    public void returnBook(int patronId, String isbn) {
+    public synchronized void returnBook(int patronId, String isbn) {
+        try {
+            const int randomDelay = (int) (Math.random() * 2000) + 1;
+            Thread.sleep(randomDelay); 
+            System.out.println(this.name + " has returned its book in " + randomDelay + " milliseconds.");
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            System.out.println(name + " was interrupted.");
+        }
+
         Patron patron = searchPatron(patronId);
         Book book = searchBook(3, isbn);
         if (patron.name.equals("No patrons found")) {
