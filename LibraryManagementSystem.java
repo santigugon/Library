@@ -1,5 +1,6 @@
-import java.util.InputMismatchException;
-import java.util.Scanner;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 import Model.Library;
 import Model.Patron;
 
@@ -8,7 +9,7 @@ public class LibraryManagementSystem {
         Library library = new Library();
         
         for( int i = 0; i < 3000; i++){
-            const int randomnumberOfCopies = (int) (Math.random() * 20) + 1;
+            int randomnumberOfCopies = (int) (Math.random() * 20) + 1;
             library.addBook("title"+i, "author"+i, randomnumberOfCopies, "isbn"+i);
         }
 
@@ -16,14 +17,13 @@ public class LibraryManagementSystem {
             library.addPatron("nombre"+i, i, "details"+i);
         }
 
-        for( int i = 0; i < 30000; i++){
-            Thread patronThread = new Thread(library.patrons.get(i));
-            patronThread.start();
-
-
+        ExecutorService executor = Executors.newFixedThreadPool(20); 
+        
+        for(Patron patron : library.patrons) {
+            patron.setLibrary(library); 
+            executor.submit(patron);    
         }
-
-
-
+        
+        executor.shutdown();
     }
 }

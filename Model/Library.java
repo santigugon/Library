@@ -2,8 +2,10 @@ package Model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class Library {
+    private final ReentrantLock borrowLock = new ReentrantLock();
     private List<Book> books;
     private List<Patron> patrons;
 
@@ -110,14 +112,17 @@ public class Library {
     public synchronized void borrowBook(int patronId, String isbn) {
         Patron patron = searchPatron(patronId);
         Book book = searchBook(3, isbn);
-
+        borrowLock.lock();
         try {
-            const int randomDelay = (int) (Math.random() * 2000) + 1;
+             int randomDelay = (int) (Math.random() * 2000) + 1;
             Thread.sleep(randomDelay); 
-            System.out.println(this.name + " has read for " + randomDelay + " milliseconds.");
+            System.out.println( " Has read for " + randomDelay + " milliseconds.");
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
             System.out.println(name + " was interrupted.");
+        }
+        finally {
+            borrowLock.unlock();
         }
 
         if (patron.name.equals("No patrons found")) {
@@ -135,9 +140,9 @@ public class Library {
 
     public synchronized void returnBook(int patronId, String isbn) {
         try {
-            const int randomDelay = (int) (Math.random() * 2000) + 1;
+            int randomDelay = (int) (Math.random() * 2000) + 1;
             Thread.sleep(randomDelay); 
-            System.out.println(this.name + " has returned its book in " + randomDelay + " milliseconds.");
+            System.out.println("as returned its book in " + randomDelay + " milliseconds.");
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
             System.out.println(name + " was interrupted.");

@@ -1,11 +1,14 @@
 package Model;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Patron implements Runnable {
     public String name;
     public int id;
     public String details; 
     public ArrayList<Book> borrowedBooks;
+    private Library library;
+    private Random random = new Random();
 
     public Patron (String name, int id, String details){
         this.name = name;
@@ -23,7 +26,7 @@ public class Patron implements Runnable {
 
     public void borrowBook(Book book) {
         try {
-            const int randomDelay = (int) (Math.random() * 2000) + 1;
+            int randomDelay = (int) (Math.random() * 2000) + 1;
             Thread.sleep(randomDelay); 
             System.out.println(this.name + " has read for " + randomDelay + " milliseconds.");
         } catch (InterruptedException e) {
@@ -43,7 +46,7 @@ public class Patron implements Runnable {
 
     public void returnBook(Book book) {
         try {
-            const int randomDelay = (int) (Math.random() * 2000) + 1;
+             int randomDelay = (int) (Math.random() * 2000) + 1;
             Thread.sleep(randomDelay); 
             System.out.println(this.name + " has returned its book in " + randomDelay + " milliseconds.");
         } catch (InterruptedException e) {
@@ -94,5 +97,38 @@ public class Patron implements Runnable {
 
     public String getName() {
         return name;
+    }
+
+
+    @Override
+    public void run() {
+        if (library == null) {
+            System.out.println("Patron " + name + " has no library to interact with!");
+            return;
+        }
+        
+        try {
+            // Cada uno de los patrones va a hacer un número aleatorio de acciones entre 1 y 3
+            int numberOfActions = random.nextInt(3) + 1;
+            
+            for (int i = 0; i < numberOfActions; i++) {
+                String isbn = "isbn" + random.nextInt(3000);
+                
+                // Va a tener un 70% de probabilidad de pedir un libro y un 30% de devolverlo
+                if (random.nextDouble() < 0.7) {
+                    library.borrowBook(this.id, isbn);
+                    Thread.sleep(random.nextInt(1000) + 500); 
+                } else if (!borrowedBooks.isEmpty()) {
+                    Book bookToReturn = borrowedBooks.get(random.nextInt(borrowedBooks.size()));
+                    library.returnBook(this.id, bookToReturn.getIsbn());
+                    Thread.sleep(random.nextInt(1000) + 500);
+                }
+            }
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            System.out.println(name + " was interrupted.");
+        } catch (Exception e) {
+            System.out.println("Error with patron " + name + ": " + e.getMessage());
+        }
     }
 }
