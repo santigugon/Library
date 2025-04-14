@@ -17,13 +17,10 @@ public class LibraryManagementSystem {
             library.addPatron("nombre"+i, i, "details"+i);
         }
 
-        ExecutorService executor = Executors.newFixedThreadPool(20); 
-        
         for(Patron patron : library.patrons) {
-            patron.setLibrary(library); 
-            executor.submit(patron);    
+            patron.setLibrary(library);
+            Thread thread = new Thread(patron);
+            thread.start();
         }
-        
-        executor.shutdown();
     }
 }
